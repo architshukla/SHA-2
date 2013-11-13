@@ -1,9 +1,81 @@
 package rawrv.sha2;
 
-public final class SHA2 {
+import java.util.ArrayList;
+
+public final class SHA2 implements SecureHash {
 	
-	public static String hash() {
+	private SHA2() {
+		// Private constructor to avoid instantiation of the class
+	}
+	
+	public static String hash(String input) {
 		// TODO Implement main hash function
+		// 1. Convert String into an ArrayList<Boolean>
+		// 2. Use the padding() function to pad the bit string
+		// 3. Divide each 512 bit string in 16 + 48 blocks
+		// 4. Use the other utility functions
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> RotR(ArrayList<Boolean> A, int n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> ShR(ArrayList<Boolean> A, int n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> concat(ArrayList<Boolean> A, ArrayList<Boolean> B) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> Ch(ArrayList<Boolean> X, ArrayList<Boolean> Y,
+			ArrayList<Boolean> Z) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> Maj(ArrayList<Boolean> X, ArrayList<Boolean> Y,
+			ArrayList<Boolean> Z) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> SIGMA0(ArrayList<Boolean> X) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> SIGMA1(ArrayList<Boolean> X) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> sigma0(ArrayList<Boolean> X) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> sigma1(ArrayList<Boolean> X) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Boolean> padding(ArrayList<Boolean> input) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
