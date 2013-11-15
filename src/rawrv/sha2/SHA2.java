@@ -34,7 +34,7 @@ public final class SHA2 {
 		return null;
 	}
 
-	public ArrayList<Boolean> RotR(ArrayList<Boolean> A, int n) {
+	private ArrayList<Boolean> RotR(ArrayList<Boolean> A, int n) {
 		n = n % A.size();
 		for(int i = 0; i < n; i++)
 		{
@@ -44,7 +44,7 @@ public final class SHA2 {
 		return A;
 	}
 
-	public ArrayList<Boolean> ShR(ArrayList<Boolean> A, int n) {
+	private ArrayList<Boolean> ShR(ArrayList<Boolean> A, int n) {
 		n = n % A.size();
 		for(int i = 0; i < n; i++)
 		{
@@ -54,45 +54,58 @@ public final class SHA2 {
 		return A;
 	}
 
-	public ArrayList<Boolean> concat(ArrayList<Boolean> A, ArrayList<Boolean> B) {
+	private ArrayList<Boolean> concat(ArrayList<Boolean> A, ArrayList<Boolean> B) {
 		A.addAll(B);
 		return A;
 	}
 
-	public ArrayList<Boolean> Ch(ArrayList<Boolean> X, ArrayList<Boolean> Y,
+	private ArrayList<Boolean> Ch(ArrayList<Boolean> X, ArrayList<Boolean> Y,
 			ArrayList<Boolean> Z) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public ArrayList<Boolean> Maj(ArrayList<Boolean> X, ArrayList<Boolean> Y,
+	private ArrayList<Boolean> Maj(ArrayList<Boolean> X, ArrayList<Boolean> Y,
 			ArrayList<Boolean> Z) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public ArrayList<Boolean> SIGMA0(ArrayList<Boolean> X) {
+	private ArrayList<Boolean> SIGMA0(ArrayList<Boolean> X) {
+		return xor(xor(RotR(X,2),RotR(X,13)),RotR(X,22));
+	}
+
+	private ArrayList<Boolean> SIGMA1(ArrayList<Boolean> X) {
+		return xor(xor(RotR(X,6),RotR(X,11)),RotR(X,25));
+	}
+
+	private ArrayList<Boolean> sigma0(ArrayList<Boolean> X) {
+		return xor(xor(RotR(X,7),RotR(X,18)),ShR(X,3));
+	}
+
+	private ArrayList<Boolean> sigma1(ArrayList<Boolean> X) {
+		return xor(xor(RotR(X,17),RotR(X,19)),ShR(X,10));
+	}
+
+	private ArrayList<Boolean> padding(ArrayList<Boolean> input) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public ArrayList<Boolean> SIGMA1(ArrayList<Boolean> X) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public ArrayList<Boolean> sigma0(ArrayList<Boolean> X) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public ArrayList<Boolean> sigma1(ArrayList<Boolean> X) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public ArrayList<Boolean> padding(ArrayList<Boolean> input) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public ArrayList<Boolean> xor(ArrayList<Boolean> A, ArrayList<Boolean> B) {
+		while(A.size() < B.size())
+		{
+			A.add(false);
+		}
+		while(A.size() > B.size())
+		{
+			B.add(false);
+		}
+		for(int i = 0; i < A.size(); i++)
+		{
+			Boolean temp = A.get(i) ^ B.get(i);
+			A.set(i, temp);
+		}
+		return A;
 	}
 }
