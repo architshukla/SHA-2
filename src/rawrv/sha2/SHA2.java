@@ -2,101 +2,24 @@ package rawrv.sha2;
 
 import java.util.ArrayList;
 
-public final class SHA2 implements SecureHash {
+public final class SHA2 {
+
+	private static ArrayList<ArrayList<Boolean>> W = new ArrayList<ArrayList<Boolean>>();
 
 	private SHA2() {
 		// Private constructor to avoid instantiation of the class
 	}
 
-	public static ArrayList<Boolean> convertToList(String input) {
-		byte[] bitVector = input.getBytes();
-		ArrayList<Boolean> bitVect = new ArrayList<Boolean>();
-		for (byte b : bitVector) {
-			ArrayList<Boolean> bytes = new ArrayList<Boolean> ();
-			for (int i = 0; i < 8; i++) {
-				if ((b & 1) == 1)
-					bytes.add(0, true);
-				else
-					bytes.add(0,false);
-				b = (byte) (b >>1);
-			}
-			bitVect.addAll(bytes);
-		}
-		return bitVect;
-	}
-
+	
+	// public
 	public static String hash(String input) {
+		SecureHashFuncrions sha = new SecureHashFuncrions();
+		ArrayList<Boolean> inputByteList = sha.convertToList(input);
 		// TODO Implement main hash function
 		// 1. Convert String into an ArrayList<Boolean>
 		// 2. Use the padding() function to pad the bit string
 		// 3. Divide each 512 bit string in 16 + 48 blocks
 		// 4. Use the other utility functions
 		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> RotR(ArrayList<Boolean> A, int n) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> ShR(ArrayList<Boolean> A, int n) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> concat(ArrayList<Boolean> A, ArrayList<Boolean> B) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> Ch(ArrayList<Boolean> X, ArrayList<Boolean> Y,
-			ArrayList<Boolean> Z) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> Maj(ArrayList<Boolean> X, ArrayList<Boolean> Y,
-			ArrayList<Boolean> Z) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> SIGMA0(ArrayList<Boolean> X) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> SIGMA1(ArrayList<Boolean> X) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> sigma0(ArrayList<Boolean> X) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Boolean> sigma1(ArrayList<Boolean> X) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void padding(ArrayList<Boolean> input) {
-		input.add(true);
-		int k =10 ; // simply
-//		find k
-		for (int j=0;j<k;k++){
-			input.add(false);
-		}
 	}
 }

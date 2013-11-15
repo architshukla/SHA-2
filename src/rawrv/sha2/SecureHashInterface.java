@@ -2,7 +2,10 @@ package rawrv.sha2;
 
 import java.util.ArrayList;
 
-public interface SecureHash {
+public interface SecureHashInterface {
+	
+	public ArrayList<Boolean> convertToList(String input);
+	
 	public ArrayList<Boolean> RotR(ArrayList<Boolean> A, int n);
 	// Circular Right shift of A by n bits
 	
