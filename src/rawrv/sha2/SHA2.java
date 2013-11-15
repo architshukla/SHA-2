@@ -61,14 +61,12 @@ public final class SHA2 {
 
 	private ArrayList<Boolean> Ch(ArrayList<Boolean> X, ArrayList<Boolean> Y,
 			ArrayList<Boolean> Z) {
-		// TODO Auto-generated method stub
-		return null;
+		return xor(and(X,Y),and(not(X),Z));
 	}
 
 	private ArrayList<Boolean> Maj(ArrayList<Boolean> X, ArrayList<Boolean> Y,
 			ArrayList<Boolean> Z) {
-		// TODO Auto-generated method stub
-		return null;
+		return xor(xor(and(X,Y),and(X,Z)),and(Y,Z));
 	}
 
 	private ArrayList<Boolean> SIGMA0(ArrayList<Boolean> X) {
