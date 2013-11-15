@@ -30,6 +30,6 @@ public interface SecureHash {
 	public ArrayList<Boolean> sigma1(ArrayList<Boolean> X);
 	// RotR(X,17) ^ RotR(X,19) ^ RotR(X,10)
 	
-	public ArrayList<Boolean> padding(ArrayList<Boolean> input);
+	public void padding(ArrayList<Boolean> input);
 	// Pads bits to make the length of bit string a multiple of 512
 }

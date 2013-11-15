@@ -3,11 +3,28 @@ package rawrv.sha2;
 import java.util.ArrayList;
 
 public final class SHA2 implements SecureHash {
-	
+
 	private SHA2() {
 		// Private constructor to avoid instantiation of the class
 	}
-	
+
+	public static ArrayList<Boolean> convertToList(String input) {
+		byte[] bitVector = input.getBytes();
+		ArrayList<Boolean> bitVect = new ArrayList<Boolean>();
+		for (byte b : bitVector) {
+			ArrayList<Boolean> bytes = new ArrayList<Boolean> ();
+			for (int i = 0; i < 8; i++) {
+				if ((b & 1) == 1)
+					bytes.add(0, true);
+				else
+					bytes.add(0,false);
+				b = (byte) (b >>1);
+			}
+			bitVect.addAll(bytes);
+		}
+		return bitVect;
+	}
+
 	public static String hash(String input) {
 		// TODO Implement main hash function
 		// 1. Convert String into an ArrayList<Boolean>
@@ -74,8 +91,13 @@ public final class SHA2 implements SecureHash {
 	}
 
 	@Override
-	public ArrayList<Boolean> padding(ArrayList<Boolean> input) {
-		// TODO Auto-generated method stub
-		return null;
+	public void padding(ArrayList<Boolean> input) {
+		input.add(true);
+		int k =10 ;
+//		find k
+		for (int j=0;k<j;k++){
+			input.add(false);
+		}
 	}
+	public static void main(String[] args){}
 }
