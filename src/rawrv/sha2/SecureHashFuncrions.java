@@ -1,12 +1,13 @@
 package rawrv.sha2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SecureHashFuncrions implements SecureHashInterface {
 	
-	public ArrayList<Boolean> convertToList(String input) {
+	public List<Boolean> convertToList(String input) {
 		byte[] bitVector = input.getBytes();
-		ArrayList<Boolean> bitVect = new ArrayList<Boolean>();
+		List<Boolean> bitVect = new ArrayList<Boolean>();
 		for (byte b : bitVector) {
 			ArrayList<Boolean> bytes = new ArrayList<Boolean>();
 			for (int i = 0; i < 8; i++) {
@@ -23,63 +24,63 @@ public class SecureHashFuncrions implements SecureHashInterface {
 
 
 	@Override
-	public ArrayList<Boolean> RotR(ArrayList<Boolean> A, int n) {
+	public List<Boolean> RotR(List<Boolean> A, int n) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Boolean> ShR(ArrayList<Boolean> A, int n) {
+	public List<Boolean> ShR(List<Boolean> A, int n) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Boolean> concat(ArrayList<Boolean> A, ArrayList<Boolean> B) {
+	public List<Boolean> concat(List<Boolean> A, List<Boolean> B) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Boolean> Ch(ArrayList<Boolean> X, ArrayList<Boolean> Y,
-			ArrayList<Boolean> Z) {
+	public List<Boolean> Ch(List<Boolean> X, List<Boolean> Y,
+			List<Boolean> Z) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Boolean> Maj(ArrayList<Boolean> X, ArrayList<Boolean> Y,
-			ArrayList<Boolean> Z) {
+	public List<Boolean> Maj(List<Boolean> X, List<Boolean> Y,
+			List<Boolean> Z) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Boolean> SIGMA0(ArrayList<Boolean> X) {
+	public List<Boolean> SIGMA0(List<Boolean> X) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Boolean> SIGMA1(ArrayList<Boolean> X) {
+	public List<Boolean> SIGMA1(List<Boolean> X) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Boolean> sigma0(ArrayList<Boolean> X) {
+	public List<Boolean> sigma0(List<Boolean> X) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Boolean> sigma1(ArrayList<Boolean> X) {
+	public List<Boolean> sigma1(List<Boolean> X) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void padding(ArrayList<Boolean> input) {
+	public void padding(List<Boolean> input) {
 		input.add(true);
 		int k = 10; // simply
 		// find k
