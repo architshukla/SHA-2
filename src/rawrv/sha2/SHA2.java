@@ -92,7 +92,7 @@ public final class SHA2 {
 		return null;
 	}
 	
-	public ArrayList<Boolean> xor(ArrayList<Boolean> A, ArrayList<Boolean> B) {
+	private ArrayList<Boolean> xor(ArrayList<Boolean> A, ArrayList<Boolean> B) {
 		while(A.size() < B.size())
 		{
 			A.add(false);
@@ -104,6 +104,32 @@ public final class SHA2 {
 		for(int i = 0; i < A.size(); i++)
 		{
 			Boolean temp = A.get(i) ^ B.get(i);
+			A.set(i, temp);
+		}
+		return A;
+	}
+	
+	private ArrayList<Boolean> and(ArrayList<Boolean> A, ArrayList<Boolean> B) {
+		while(A.size() < B.size())
+		{
+			A.add(false);
+		}
+		while(A.size() > B.size())
+		{
+			B.add(false);
+		}
+		for(int i = 0; i < A.size(); i++)
+		{
+			Boolean temp = A.get(i) & B.get(i);
+			A.set(i, temp);
+		}
+		return A;
+	}
+	
+	private ArrayList<Boolean> not(ArrayList<Boolean> A) {
+		for(int i = 0; i < A.size(); i++)
+		{
+			Boolean temp = !A.get(i);
 			A.set(i, temp);
 		}
 		return A;
