@@ -19,20 +19,30 @@ public final class SHA2 implements SecureHash {
 
 	@Override
 	public ArrayList<Boolean> RotR(ArrayList<Boolean> A, int n) {
-		// TODO Auto-generated method stub
-		return null;
+		n = n % A.size();
+		for(int i = 0; i < n; i++)
+		{
+			Boolean temp = A.remove(A.size() - 1);
+			A.add(0, temp);
+		}
+		return A;
 	}
 
 	@Override
 	public ArrayList<Boolean> ShR(ArrayList<Boolean> A, int n) {
-		// TODO Auto-generated method stub
-		return null;
+		n = n % A.size();
+		for(int i = 0; i < n; i++)
+		{
+			A.remove(A.size() - 1);
+			A.add(0, false);
+		}
+		return A;
 	}
 
 	@Override
 	public ArrayList<Boolean> concat(ArrayList<Boolean> A, ArrayList<Boolean> B) {
-		// TODO Auto-generated method stub
-		return null;
+		A.addAll(B);
+		return A;
 	}
 
 	@Override
