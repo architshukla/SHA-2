@@ -93,11 +93,10 @@ public final class SHA2 implements SecureHash {
 	@Override
 	public void padding(ArrayList<Boolean> input) {
 		input.add(true);
-		int k =10 ;
+		int k =10 ; // simply
 //		find k
-		for (int j=0;k<j;k++){
+		for (int j=0;j<k;k++){
 			input.add(false);
 		}
 	}
-	public static void main(String[] args){}
 }
