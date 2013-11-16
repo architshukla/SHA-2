@@ -28,8 +28,17 @@ public class TestShaFunctions {
 				false, true };
 		List<Boolean> expected = new ArrayList(Arrays.asList(expectedInArray));
 		assertEquals(expected, actual);
-		
-		System.out.println(testShaFunctions.convertToList(7));
+		int a = 0xbb67ae85;
+		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[0])+" "+testShaFunctions.H[0]+" "+0x6a09e667);
+		System.out.println(testShaFunctions
+				.convertToList(testShaFunctions.H[1])
+				+ " "+Integer.toHexString(testShaFunctions.H[1]));
+		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[2])+" "+testShaFunctions.H[0]+" "+0x3c6ef372);
+		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[3])+" "+testShaFunctions.H[0]+" "+0xa54ff53a);
+		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[4])+" "+testShaFunctions.H[0]+" "+0x510e527f);
+		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[5])+" "+testShaFunctions.H[0]+" "+0x9b05688c);
+		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[6])+" "+testShaFunctions.H[0]+" "+0x1f83d9ab);
+		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[7])+" "+testShaFunctions.H[0]+" "+0x5be0cd19);
 	}
 
 	@Test
@@ -48,12 +57,12 @@ public class TestShaFunctions {
 	@Test
 	public void testListToBigInteger() {
 		List<Boolean> actual = testShaFunctions.convertToList("abc");
-//		System.out.println(testShaFunctions.listToBigInteger(actual));
-//		System.out.println();
+		// System.out.println(testShaFunctions.listToBigInteger(actual));
+		// System.out.println();
 		Boolean[] expectedInArray = { false, true, true, false, false, false,
 				false, true };
 		List<Boolean> expected = new ArrayList(Arrays.asList(expectedInArray));
-//		System.out.println(testShaFunctions.listToBigInteger(expected));
+		// System.out.println(testShaFunctions.listToBigInteger(expected));
 	}
 
 	@Test
@@ -111,7 +120,6 @@ public class TestShaFunctions {
 		assertEquals(11, testShaFunctions.getHalfByte(expected3));
 
 	}
-	
 
 	@Test
 	public void testConvertToString() {
@@ -121,11 +129,11 @@ public class TestShaFunctions {
 		List<Boolean> expected2 = new ArrayList(Arrays.asList(expectedInArray2));
 		Boolean[] expectedInArray3 = { true, false, true, true };
 		List<Boolean> expected3 = new ArrayList(Arrays.asList(expectedInArray3));
-		
+
 		assertEquals("3", testShaFunctions.convertToString(expected1));
 		assertEquals("7", testShaFunctions.convertToString(expected2));
 		assertEquals("b", testShaFunctions.convertToString(expected3));
-//		System.out.println(testShaFunctions.convertToString(expected3));
+		// System.out.println(testShaFunctions.convertToString(expected3));
 
 	}
 }

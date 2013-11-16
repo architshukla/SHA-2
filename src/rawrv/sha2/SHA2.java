@@ -14,14 +14,13 @@ public final class SHA2 {
 	// public
 	public static String hash(String input) {
 		SecureHashFuncrions sha = new SecureHashFuncrions();
-		System.out.println("hey");
 
 		List<Boolean> a = sha.convertToList(sha.H[0]), b = sha
 				.convertToList(sha.H[1]), c = sha.convertToList(sha.H[2]), d = sha
 				.convertToList(sha.H[3]), e = sha.convertToList(sha.H[4]), f = sha
 				.convertToList(sha.H[5]), g = sha.convertToList(sha.H[6]), h = sha
 				.convertToList(sha.H[7]);
-		System.out.println("hey");
+		System.out.println("Setting constants..");
 
 		List<Boolean> h0 = new ArrayList<Boolean>(a), h1 = new ArrayList<Boolean>(
 				b), h2 = new ArrayList<Boolean>(c), h3 = new ArrayList<Boolean>(
@@ -34,33 +33,38 @@ public final class SHA2 {
 
 		// 2. Use the padding() function to pad the bit string
 		sha.padMessage(inputByteList);
-
+		System.out.println("padding bytes.."+" "+inputByteList.size()+" "+inputByteList.size()%512);
+		
 		// 3. Divide each 512 bit string in 16 + 48 blocks
 		int j = 0;
-		for (int i = 0; i < 16; i++) {
-			List<Boolean> word = inputByteList.subList(i, i + 8);
+		for (int i = 0; i < 512;) {
+			List<Boolean> word = new ArrayList<Boolean>(inputByteList.subList(i, i + 32));
+//			System.out.println(word);
 			W.add(word);
+			i = i+32;
 		}
+		System.out.println("Divided message.. ");
 
 		// wi = sigma1(wi-2)+wi-7+sigma0(wi-15)+wi-16 17<=i<= 64
 		for (int k = 16; k < 64; k++) {
-			List<Boolean> listA = sha.modularAddList(sha.sigma1(W.get(k - 2)),
+			List<Boolean> listA = sha.modularAddList(sha.sigma1(new ArrayList<Boolean>(W.get(k - 2))),
 					W.get(k - 7));
-			List<Boolean> listB = sha.modularAddList(sha.sigma0(W.get(k - 15)),
+			List<Boolean> listB = sha.modularAddList(sha.sigma0(new ArrayList<Boolean>(W.get(k - 15))),
 					W.get(k - 16));
 			W.add(sha.modularAddList(listA, listB));
+//			break; // remember to remove this
 		}
 		List<Boolean> t1, t2;
 		// 4. Use the other utility functions
 
-		for (int i = 1; i < 64; i++) {
+		for (int i = 0; i < 64; i++) {
 			t1 = sha.modularAddList(
 					sha.modularAddList(
 							sha.modularAddList(
-									sha.modularAddList(h, sha.SIGMA1(e)),
-									sha.Ch(e, f, g)),
+									sha.modularAddList(h, sha.SIGMA1(new ArrayList<Boolean>(e))),
+									sha.Ch(new ArrayList<Boolean>(e), new ArrayList<Boolean>(f), new ArrayList<Boolean>(g))),
 							sha.convertToList(sha.K[i])), W.get(i));
-			t2 = sha.modularAddList(sha.SIGMA0(a), sha.Maj(a, b, c));
+			t2 = sha.modularAddList(sha.SIGMA0(new ArrayList<Boolean>(a)), sha.Maj(new ArrayList<Boolean>(a),new ArrayList<Boolean>( b), new ArrayList<Boolean>(c)));
 			h = g;
 			g = f;
 			f = e;
@@ -77,9 +81,11 @@ public final class SHA2 {
 			h5 = sha.modularAddList(h5, f);
 			h6 = sha.modularAddList(h6, g);
 			h7 = sha.modularAddList(h7, h);
+			System.out.println(i+" "+sha.convertToString(h0)+" "+sha.convertToString(h1)+" "+sha.convertToString(h2)+" "+sha.convertToString(h3)+" "+sha.convertToString(h4)+" "+sha.convertToString(h5)+" "+sha.convertToString(h6)+" "+sha.convertToString(h7));
+//		break; // remember to remove this
 		}
-		String sh1 = sha.convertToString(h0);
-		return "";
+		System.out.println();
+		return sha.convertToString(h0)+" "+sha.convertToString(h1)+" "+sha.convertToString(h2)+" "+sha.convertToString(h3)+" "+sha.convertToString(h4)+" "+sha.convertToString(h5)+" "+sha.convertToString(h6)+" "+sha.convertToString(h7);
 
 	}
 }

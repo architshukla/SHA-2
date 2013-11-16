@@ -24,7 +24,9 @@ public class SecureHashFuncrions implements SecureHashInterface {
 	}
 
 	public List<Boolean> convertToList(BigInteger result) {
+//		System.out.print("Input: " + Integer.toHexString(result.intValue()) +" "); 
 		List<Boolean> resultList = new ArrayList<Boolean>();
+		int count = 0;
 		while (result.compareTo(BigInteger.ZERO) != 0) {
 			if (result.and(BigInteger.ONE).compareTo(BigInteger.ONE) == 0) {
 				resultList.add(0, true);
@@ -32,21 +34,95 @@ public class SecureHashFuncrions implements SecureHashInterface {
 				resultList.add(0, false);
 			}
 			result = result.shiftRight(1);
+			count++;
 		}
+
+		if (count == 0) {
+			for (int i = 0; i < 4; i++) {
+				resultList.add(0, false);
+			}
+		}
+		for (int i = count; i % 4 != 0; i++) {
+			resultList.add(0, false);
+		}
+//		System.out.println(resultList);
 		return resultList;
 	}
 
-	public List<Boolean> convertToList(int result) {
+	public List<Boolean> convertToList(int res) {
+		int result = res;
+		if (result < 0)
+			return convertToListHexString(Integer.toHexString(result));
+		int count = 0;
 		List<Boolean> resultList = new ArrayList<Boolean>();
 		while (result != 0) {
-			if ((result & 1) != 0) {
+			if ((result & 1) == 1) {
 				resultList.add(0, true);
 			} else {
 				resultList.add(0, false);
 			}
 			result = result >> 1;
+			count++;
 		}
+
+		if (count == 0) {
+			for (int i = 0; i < 4; i++) {
+				resultList.add(0, false);
+			}
+		}
+		for (int i = count; i % 4 != 0; i++) {
+			resultList.add(0, false);
+		}
+//		System.out.println("Input: " + Integer.toHexString(res) + " " + " " + resultList);
+
 		return resultList;
+	}
+
+	public List<Boolean> convertToListHexString(String hexString) {
+		char[] numbers = hexString.toCharArray();
+		List<Boolean> result = new ArrayList<Boolean>();
+		for (char c : numbers) {
+			result.addAll(convertToList(getNumber(c)));
+			// System.out.println("result: " + result + " " + c);
+		}
+		return result;
+	}
+
+	public int getNumber(char c) {
+		switch (c) {
+		case '0':
+			return 0;
+		case '1':
+			return 1;
+		case '2':
+			return 2;
+		case '3':
+			return 3;
+		case '4':
+			return 4;
+		case '5':
+			return 5;
+		case '6':
+			return 6;
+		case '7':
+			return 7;
+		case '8':
+			return 8;
+		case '9':
+			return 9;
+		case 'a':
+			return 10;
+		case 'b':
+			return 11;
+		case 'c':
+			return 12;
+		case 'd':
+			return 13;
+		case 'e':
+			return 14;
+		default:
+			return 15;
+		}
 	}
 
 	@Override
@@ -170,7 +246,7 @@ public class SecureHashFuncrions implements SecureHashInterface {
 		while ((1 + origLength + padLength - 448) % 512 != 0) {
 			padLength++;
 		}
-		System.out.println(padLength);
+		// System.out.println(padLength);
 		// find k
 		for (int j = 0; j < padLength; j++) {
 			input.add(false);
@@ -184,7 +260,6 @@ public class SecureHashFuncrions implements SecureHashInterface {
 			origLength = origLength >> 1;
 		}
 		input.addAll(lastByte);
-		listToBigInteger(input);
 	}
 
 	public List<Boolean> modularAddList(List<Boolean> A, List<Boolean> B) {
@@ -199,7 +274,7 @@ public class SecureHashFuncrions implements SecureHashInterface {
 		BigInteger A1 = listToBigInteger(A);
 		BigInteger B1 = listToBigInteger(B);
 		BigInteger m = BigInteger.valueOf(base);
-		System.out.println(A1 + " " + B1);
+		// System.out.println(A1 + " " + B1);
 		return (A1.mod(m.pow(expo)).add(B1.mod(m.pow(expo)))).mod(m.pow(expo));
 	}
 
@@ -208,8 +283,10 @@ public class SecureHashFuncrions implements SecureHashInterface {
 		int position = 0;
 		int count = 0;
 		// System.out.println(input);
+//		System.out.println(input+" "+input.size());
 		while (position < input.size()) {
-			int number = getHalfByte(input.subList(position, position + 4));
+			int number = getHalfByte(new ArrayList<Boolean>(input.subList(
+					position, position + 4)));
 			// System.out.println(number);
 
 			bg = bg.shiftLeft(4);
@@ -218,7 +295,7 @@ public class SecureHashFuncrions implements SecureHashInterface {
 
 			// System.out.print(number);
 			if (count == 7) {
-				System.out.println();
+//				System.out.println();
 				count = -1;
 			}
 			count++;
