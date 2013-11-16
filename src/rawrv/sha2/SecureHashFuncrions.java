@@ -1,5 +1,6 @@
 package rawrv.sha2;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,13 +134,85 @@ public class SecureHashFuncrions implements SecureHashInterface {
 	}
 
 	@Override
-	public void padding(List<Boolean> input) {
+	public void padMessage(List<Boolean> input) {
+		int origLength = input.size();
 		input.add(true);
-		int k = 10; // simply
+		// a = b mod m => (a-b)/m is an integer
+		int padLength = 1;
+		while ((1 + origLength + padLength - 448) < 0)
+			padLength++;
+		while ((1 + origLength + padLength - 448) % 512 != 0) {
+			padLength++;
+		}
+		System.out.println(padLength);
 		// find k
-		for (int j = 0; j < k; k++) {
+		for (int j = 0; j < padLength; j++) {
 			input.add(false);
 		}
-		// append length l
+		List<Boolean> lastByte = new ArrayList<Boolean>();
+		for (int i = 0; i < 64; i++) {
+			if ((origLength & 1) == 1)
+				lastByte.add(0, true);
+			else
+				lastByte.add(0, false);
+			origLength = origLength >> 1;
+		}
+		input.addAll(lastByte);
+		listToByte(input);
 	}
+
+	public List<Boolean> modularAddList(List<Boolean> A, List<Boolean> B){
+		BigInteger result = modularAdd(A, B, 2, 32);
+		List<Boolean> resultList = new ArrayList<Boolean>();
+		while(result.compareTo(BigInteger.ZERO) !=0 ){
+			if(result.and(BigInteger.ONE).compareTo(BigInteger.ONE)==0){
+				resultList.add(0,true);
+			}else{
+				resultList.add(0,false);
+			}
+			result = result.shiftRight(1);
+		}
+			
+		return resultList;
+		
+	}
+	public BigInteger modularAdd(List<Boolean> A, List<Boolean> B,int base,int expo) {
+		BigInteger A1 = listToByte(A);
+		BigInteger B1 = listToByte(B);
+		BigInteger m = BigInteger.valueOf(base);
+		System.out.println(A1 +" "+ B1);
+		return (A1.mod(m.pow(expo)).add(B1.mod(m.pow(expo)))).mod(m.pow(expo));
+	}
+
+	public BigInteger listToByte(List<Boolean> input) {
+		BigInteger bg = BigInteger.ZERO;
+		int position = 0;
+		int count = 0;
+//		System.out.println(input);
+		while (position < input.size()) {
+			int number = 0;
+			for (int j = 0; j < 4; j++) {
+				// System.out.println(number);
+				number = number << 1;
+				bg = bg.shiftLeft(1);
+				if (input.get(position)) {
+					number = number | 1;
+					bg = bg.or(BigInteger.ONE);
+				} else {
+					number = number | 0;
+					bg = bg.or(BigInteger.ZERO);
+				}
+				position++;
+			}
+//			System.out.print(number);
+			if (count == 7) {
+				System.out.println();
+				count = -1;
+			}
+			count++;
+			// break;
+		}
+		return bg;
+	}
+
 }

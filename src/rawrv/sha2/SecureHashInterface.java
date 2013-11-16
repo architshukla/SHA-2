@@ -33,7 +33,7 @@ public interface SecureHashInterface {
 	public List<Boolean> sigma1(List<Boolean> X);
 	// RotR(X,17) ^ RotR(X,19) ^ RotR(X,10)
 
-	public void padding(List<Boolean> input);
+	public void padMessage(List<Boolean> input);
 	// Pads bits to make the length of bit string a multiple of 512
 
 	public List<Boolean> xor(List<Boolean> A, List<Boolean> B);
