@@ -23,6 +23,32 @@ public class SecureHashFuncrions implements SecureHashInterface {
 		return bitVect;
 	}
 
+	public List<Boolean> convertToList(BigInteger result) {
+		List<Boolean> resultList = new ArrayList<Boolean>();
+		while (result.compareTo(BigInteger.ZERO) != 0) {
+			if (result.and(BigInteger.ONE).compareTo(BigInteger.ONE) == 0) {
+				resultList.add(0, true);
+			} else {
+				resultList.add(0, false);
+			}
+			result = result.shiftRight(1);
+		}
+		return resultList;
+	}
+
+	public List<Boolean> convertToList(int result) {
+		List<Boolean> resultList = new ArrayList<Boolean>();
+		while (result != 0) {
+			if ((result & 1) != 0) {
+				resultList.add(0, true);
+			} else {
+				resultList.add(0, false);
+			}
+			result = result >> 1;
+		}
+		return resultList;
+	}
+
 	@Override
 	public List<Boolean> RotR(List<Boolean> A, int n) {
 		n = n % A.size();
@@ -158,53 +184,39 @@ public class SecureHashFuncrions implements SecureHashInterface {
 			origLength = origLength >> 1;
 		}
 		input.addAll(lastByte);
-		listToByte(input);
+		listToBigInteger(input);
 	}
 
-	public List<Boolean> modularAddList(List<Boolean> A, List<Boolean> B){
+	public List<Boolean> modularAddList(List<Boolean> A, List<Boolean> B) {
 		BigInteger result = modularAdd(A, B, 2, 32);
-		List<Boolean> resultList = new ArrayList<Boolean>();
-		while(result.compareTo(BigInteger.ZERO) !=0 ){
-			if(result.and(BigInteger.ONE).compareTo(BigInteger.ONE)==0){
-				resultList.add(0,true);
-			}else{
-				resultList.add(0,false);
-			}
-			result = result.shiftRight(1);
-		}
-			
+		List<Boolean> resultList = convertToList(result);
 		return resultList;
-		
+
 	}
-	public BigInteger modularAdd(List<Boolean> A, List<Boolean> B,int base,int expo) {
-		BigInteger A1 = listToByte(A);
-		BigInteger B1 = listToByte(B);
+
+	public BigInteger modularAdd(List<Boolean> A, List<Boolean> B, int base,
+			int expo) {
+		BigInteger A1 = listToBigInteger(A);
+		BigInteger B1 = listToBigInteger(B);
 		BigInteger m = BigInteger.valueOf(base);
-		System.out.println(A1 +" "+ B1);
+		System.out.println(A1 + " " + B1);
 		return (A1.mod(m.pow(expo)).add(B1.mod(m.pow(expo)))).mod(m.pow(expo));
 	}
 
-	public BigInteger listToByte(List<Boolean> input) {
+	public BigInteger listToBigInteger(List<Boolean> input) {
 		BigInteger bg = BigInteger.ZERO;
 		int position = 0;
 		int count = 0;
-//		System.out.println(input);
+		// System.out.println(input);
 		while (position < input.size()) {
-			int number = 0;
-			for (int j = 0; j < 4; j++) {
-				// System.out.println(number);
-				number = number << 1;
-				bg = bg.shiftLeft(1);
-				if (input.get(position)) {
-					number = number | 1;
-					bg = bg.or(BigInteger.ONE);
-				} else {
-					number = number | 0;
-					bg = bg.or(BigInteger.ZERO);
-				}
-				position++;
-			}
-//			System.out.print(number);
+			int number = getHalfByte(input.subList(position, position + 4));
+			// System.out.println(number);
+
+			bg = bg.shiftLeft(4);
+			bg = bg.or(BigInteger.valueOf(number));
+			position += 4;
+
+			// System.out.print(number);
 			if (count == 7) {
 				System.out.println();
 				count = -1;
@@ -213,6 +225,50 @@ public class SecureHashFuncrions implements SecureHashInterface {
 			// break;
 		}
 		return bg;
+	}
+
+	public static int getHalfByte(List<Boolean> input) {
+		int number = 0;
+		for (int j = 0; j < 4; j++) {
+			number = number << 1;
+			if (input.get(j)) {
+				number = number | 1;
+			} else {
+				number = number | 0;
+			}
+
+		}
+		return number;
+	}
+
+	public String convertToString(List<Boolean> input) {
+		int position = 0;
+		String hexVal = "";
+		while (position < input.size()) {
+			int number = getHalfByte(input.subList(position, position + 4));
+			hexVal += getHexVal(number);
+			position += 4;
+		}
+		return hexVal;
+	}
+
+	public String getHexVal(int number) {
+		switch (number) {
+		case 10:
+			return "a";
+		case 11:
+			return "b";
+		case 12:
+			return "c";
+		case 13:
+			return "d";
+		case 14:
+			return "e";
+		case 15:
+			return "f";
+		default:
+			return number + "";
+		}
 	}
 
 }
