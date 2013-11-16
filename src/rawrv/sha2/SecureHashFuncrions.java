@@ -87,5 +87,6 @@ public class SecureHashFuncrions implements SecureHashInterface {
 		for (int j = 0; j < k; k++) {
 			input.add(false);
 		}
+		// append length l
 	}
 }
