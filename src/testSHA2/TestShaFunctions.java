@@ -30,9 +30,10 @@ public class TestShaFunctions {
 		assertEquals(expected, actual);
 		int a = 0xbb67ae85;
 		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[0])+" "+testShaFunctions.H[0]+" "+0x6a09e667);
-		System.out.println(testShaFunctions
-				.convertToList(testShaFunctions.H[1])
-				+ " "+Integer.toHexString(testShaFunctions.H[1]));
+//		System.out.println(testShaFunctions
+//				.convertToList(testShaFunctions.H[1])
+//				+ " "
+//				+ Integer.toHexString(testShaFunctions.H[1]));
 		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[2])+" "+testShaFunctions.H[0]+" "+0x3c6ef372);
 		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[3])+" "+testShaFunctions.H[0]+" "+0xa54ff53a);
 		// System.out.println(testShaFunctions.convertToList(testShaFunctions.H[4])+" "+testShaFunctions.H[0]+" "+0x510e527f);
@@ -135,5 +136,14 @@ public class TestShaFunctions {
 		assertEquals("b", testShaFunctions.convertToString(expected3));
 		// System.out.println(testShaFunctions.convertToString(expected3));
 
+	}
+
+	@Test
+	public void testmodularAddList2(){
+		int a = 0x506E3058;
+		int b = 0x6A09E667;
+		List<Boolean> a1 = testShaFunctions.convertToList(a);
+		List<Boolean> b1 = testShaFunctions.convertToList(b);
+		System.out.println(testShaFunctions.convertToString(testShaFunctions.modularAddList(a1, b1)));
 	}
 }
