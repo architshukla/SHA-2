@@ -45,6 +45,7 @@ public class SecureHashFuncrions implements SecureHashInterface {
 		for (int i = count; i % 4 != 0; i++) {
 			resultList.add(0, false);
 		}
+//		System.out.println(resultList.size());
 //		System.out.println(resultList);
 		return resultList;
 	}
@@ -275,6 +276,12 @@ public class SecureHashFuncrions implements SecureHashInterface {
 	public List<Boolean> modularAddList(List<Boolean> A, List<Boolean> B) {
 		BigInteger result = modularAdd(A, B, 2, 32);
 		List<Boolean> resultList = convertToList(result);
+		int i = resultList.size();
+		while(i<32){
+			resultList.add(0,false);
+			i++;
+		}
+//		System.out.println(convertToString(resultList) +" "+convertToString(A)+" "+convertToString(B) +" "+resultList.size());
 		return resultList;
 
 	}

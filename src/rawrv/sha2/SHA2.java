@@ -88,7 +88,9 @@ public final class SHA2 {
 						+ sha.convertToString(e) + " " + sha.convertToString(f)
 						+ " " + sha.convertToString(g) + " "
 						+ sha.convertToString(h));
-				// break; // remember to remove this
+//				if(i==4)
+//				 break; // remember to remove this
+				
 			}
 			System.out.println("Before addition:" +" "+(j / 512) + " " + sha.convertToString(h0) + " "
 					+ sha.convertToString(h1) + " " + sha.convertToString(h2)
