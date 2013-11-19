@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SecureHashFuncrions implements SecureHashInterface {
+public class SecureHashFunctions implements SecureHashInterface {
 
 	public List<Boolean> convertToList(String input) {
 		byte[] bitVector = input.getBytes();

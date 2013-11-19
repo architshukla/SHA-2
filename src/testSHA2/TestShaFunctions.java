@@ -10,15 +10,15 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import rawrv.sha2.SecureHashFuncrions;
+import rawrv.sha2.SecureHashFunctions;
 
 public class TestShaFunctions {
 
-	static SecureHashFuncrions testShaFunctions;
+	static SecureHashFunctions testShaFunctions;
 
 	@BeforeClass
 	public static void testsetUp() {
-		testShaFunctions = new SecureHashFuncrions();
+		testShaFunctions = new SecureHashFunctions();
 	}
 
 	@Test

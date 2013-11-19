@@ -13,7 +13,7 @@ public final class SHA2 {
 
 	// public
 	public static String hash(String input) {
-		SecureHashFuncrions sha = new SecureHashFuncrions();
+		SecureHashFunctions sha = new SecureHashFunctions();
 		List<Boolean> h0 = sha.convertToList(sha.H[0]), h1 = sha
 				.convertToList(sha.H[1]), h2 = sha.convertToList(sha.H[2]), h3 = sha
 				.convertToList(sha.H[3]), h4 = sha.convertToList(sha.H[4]), h5 = sha
