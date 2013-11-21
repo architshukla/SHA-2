@@ -6,52 +6,64 @@ import java.util.List;
 public final class SHA2 {
 
 	private static List<List<Boolean>> W;
+	static SecureHashFunctions SHA = new SecureHashFunctions();
 
 	private SHA2() {
 		// Private constructor to avoid instantiation of the class
 	}
 
-	// public
+	public static String hash(String input, boolean isTesting) {
+		SHA.testing = isTesting;
+		return hash(input);
+	}
+
 	public static String hash(String input) {
-		SecureHashFunctions sha = new SecureHashFunctions();
-		List<Boolean> h0 = sha.convertToList(sha.H[0]), h1 = sha
-				.convertToList(sha.H[1]), h2 = sha.convertToList(sha.H[2]), h3 = sha
-				.convertToList(sha.H[3]), h4 = sha.convertToList(sha.H[4]), h5 = sha
-				.convertToList(sha.H[5]), h6 = sha.convertToList(sha.H[6]), h7 = sha
-				.convertToList(sha.H[7]);
+		List<Boolean> h0 = SHA.convertToList(SHA.H[0]), h1 = SHA
+				.convertToList(SHA.H[1]), h2 = SHA.convertToList(SHA.H[2]), h3 = SHA
+				.convertToList(SHA.H[3]), h4 = SHA.convertToList(SHA.H[4]), h5 = SHA
+				.convertToList(SHA.H[5]), h6 = SHA.convertToList(SHA.H[6]), h7 = SHA
+				.convertToList(SHA.H[7]);
 
 		// 1. Convert String into an ArrayList<Boolean>
-		List<Boolean> inputByteList = sha.convertToList(input);
+		List<Boolean> inputByteList = SHA.convertToList(input);
 
 		// 2. Use the padding() function to pad the bit string
-		sha.padMessage(inputByteList);
-		System.out.println("padding bytes.." + " " + inputByteList.size() + " "
-				+ inputByteList.size() % 512);
+		SHA.padMessage(inputByteList);
+		if (SHA.testing) {
+			System.out.println("padding message..\n");
 
-		// 3. Divide each 512 bit string in 16 + 48 blocks
+			System.out.println("Padded Message is : "
+					+ SHA.convertToString(inputByteList) + "\n");
+		}
+
 		for (int j = 0; j < inputByteList.size(); j += 512) {
 
 			W = new ArrayList<List<Boolean>>();
+			// 3. Divide each 512 bit string in 16 + 48 blocks
 
+			if (SHA.testing)
+				System.out
+						.println("Message divided into 16 32 bits Words : \n");
 			for (int i = j + 0; i < j + 512;) {
 				List<Boolean> word = new ArrayList<Boolean>(
 						inputByteList.subList(i, i + 32));
-				System.out.print(sha.convertToString(word) + " ");
+				if (SHA.testing)
+					System.out.print(SHA.convertToString(word) + " ");
 				W.add(word);
 				i = i + 32;
 			}
-			System.out.println();
-			System.out.println("Divided message.. ");
-
+			if (SHA.testing)
+				System.out
+						.println("\nProducing the remaning 48 Blocks from the 16 Blocks... \n");
 			// wi = sigma1(wi-2)+wi-7+sigma0(wi-15)+wi-16 17<=i<= 64
 			for (int k = 16; k < 64; k++) {
-				List<Boolean> listA = sha.modularAddList(
-						sha.sigma1(new ArrayList<Boolean>(W.get(k - 2))),
+				List<Boolean> listA = SHA.modularAddList(
+						SHA.sigma1(new ArrayList<Boolean>(W.get(k - 2))),
 						W.get(k - 7));
-				List<Boolean> listB = sha.modularAddList(
-						sha.sigma0(new ArrayList<Boolean>(W.get(k - 15))),
+				List<Boolean> listB = SHA.modularAddList(
+						SHA.sigma0(new ArrayList<Boolean>(W.get(k - 15))),
 						W.get(k - 16));
-				W.add(sha.modularAddList(listA, listB));
+				W.add(SHA.modularAddList(listA, listB));
 				// break; // remember to remove this
 			}
 			List<Boolean> t1, t2;
@@ -62,61 +74,57 @@ public final class SHA2 {
 					h5), g = new ArrayList<Boolean>(h6), h = new ArrayList<Boolean>(
 					h7);
 
+			if (SHA.testing) {
+				System.out.println("Processing the 64 blocks of message : ");
+			}
 			for (int i = 0; i < 64; i++) {
-				t1 = sha.modularAddList(sha.modularAddList(sha.modularAddList(
-						sha.modularAddList(h,
-								sha.SIGMA1(new ArrayList<Boolean>(e))), sha.Ch(
+				t1 = SHA.modularAddList(SHA.modularAddList(SHA.modularAddList(
+						SHA.modularAddList(h,
+								SHA.SIGMA1(new ArrayList<Boolean>(e))), SHA.Ch(
 								new ArrayList<Boolean>(e),
 								new ArrayList<Boolean>(f),
-								new ArrayList<Boolean>(g))), sha
-						.convertToList(sha.K[i])), W.get(i));
-				t2 = sha.modularAddList(sha.SIGMA0(new ArrayList<Boolean>(a)),
-						sha.Maj(new ArrayList<Boolean>(a),
+								new ArrayList<Boolean>(g))), SHA
+						.convertToList(SHA.K[i])), W.get(i));
+				t2 = SHA.modularAddList(SHA.SIGMA0(new ArrayList<Boolean>(a)),
+						SHA.Maj(new ArrayList<Boolean>(a),
 								new ArrayList<Boolean>(b),
 								new ArrayList<Boolean>(c)));
 				h = g;
 				g = f;
 				f = e;
-				e = sha.modularAddList(d, t1);
+				e = SHA.modularAddList(d, t1);
 				d = c;
 				c = b;
 				b = a;
-				a = sha.modularAddList(t1, t2);
-				System.out.println(i + " " + sha.convertToString(a) + " "
-						+ sha.convertToString(b) + " " + sha.convertToString(c)
-						+ " " + sha.convertToString(d) + " "
-						+ sha.convertToString(e) + " " + sha.convertToString(f)
-						+ " " + sha.convertToString(g) + " "
-						+ sha.convertToString(h));
-//				if(i==4)
-//				 break; // remember to remove this
-				
+				a = SHA.modularAddList(t1, t2);
+
+				if (SHA.testing)
+					System.out.println("Round " + i + ":	"
+							+ SHA.convertToString(a) + " "
+							+ SHA.convertToString(b) + " "
+							+ SHA.convertToString(c) + " "
+							+ SHA.convertToString(d) + " "
+							+ SHA.convertToString(e) + " "
+							+ SHA.convertToString(f) + " "
+							+ SHA.convertToString(g) + " "
+							+ SHA.convertToString(h));
+
 			}
-			System.out.println("Before addition:" +" "+(j / 512) + " " + sha.convertToString(h0) + " "
-					+ sha.convertToString(h1) + " " + sha.convertToString(h2)
-					+ " " + sha.convertToString(h3) + " "
-					+ sha.convertToString(h4) + " " + sha.convertToString(h5)
-					+ " " + sha.convertToString(h6) + " "
-					+ sha.convertToString(h7));
-			h0 = sha.modularAddList(h0, a);
-			h1 = sha.modularAddList(h1, b);
-			h2 = sha.modularAddList(h2, c);
-			h3 = sha.modularAddList(h3, d);
-			h4 = sha.modularAddList(h4, e);
-			h5 = sha.modularAddList(h5, f);
-			h6 = sha.modularAddList(h6, g);
-			h7 = sha.modularAddList(h7, h);
-			System.out.println("After addition "+(j / 512) + " " + sha.convertToString(h0) + " "
-					+ sha.convertToString(h1) + " " + sha.convertToString(h2)
-					+ " " + sha.convertToString(h3) + " "
-					+ sha.convertToString(h4) + " " + sha.convertToString(h5)
-					+ " " + sha.convertToString(h6) + " "
-					+ sha.convertToString(h7));
+			System.out.println("\nAdding the new values to its previous values");
+			h0 = SHA.modularAddList(h0, a);
+			h1 = SHA.modularAddList(h1, b);
+			h2 = SHA.modularAddList(h2, c);
+			h3 = SHA.modularAddList(h3, d);
+			h4 = SHA.modularAddList(h4, e);
+			h5 = SHA.modularAddList(h5, f);
+			h6 = SHA.modularAddList(h6, g);
+			h7 = SHA.modularAddList(h7, h);
 		}
-		return sha.convertToString(h0) + " " + sha.convertToString(h1) + " "
-				+ sha.convertToString(h2) + " " + sha.convertToString(h3) + " "
-				+ sha.convertToString(h4) + " " + sha.convertToString(h5) + " "
-				+ sha.convertToString(h6) + " " + sha.convertToString(h7);
+		System.out.println();
+		return SHA.convertToString(h0) + " " + SHA.convertToString(h1) + " "
+				+ SHA.convertToString(h2) + " " + SHA.convertToString(h3) + " "
+				+ SHA.convertToString(h4) + " " + SHA.convertToString(h5) + " "
+				+ SHA.convertToString(h6) + " " + SHA.convertToString(h7);
 
 	}
 }

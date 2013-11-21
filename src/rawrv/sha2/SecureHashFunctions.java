@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SecureHashFunctions implements SecureHashInterface {
+	
+	public boolean testing = false;
 
 	public List<Boolean> convertToList(String input) {
 		byte[] bitVector = input.getBytes();
@@ -24,7 +26,8 @@ public class SecureHashFunctions implements SecureHashInterface {
 	}
 
 	public List<Boolean> convertToList(BigInteger result) {
-//		System.out.print("Input: " + Integer.toHexString(result.intValue()) +" "); 
+		// System.out.print("Input: " + Integer.toHexString(result.intValue())
+		// +" ");
 		List<Boolean> resultList = new ArrayList<Boolean>();
 		int count = 0;
 		while (result.compareTo(BigInteger.ZERO) != 0) {
@@ -45,8 +48,8 @@ public class SecureHashFunctions implements SecureHashInterface {
 		for (int i = count; i % 4 != 0; i++) {
 			resultList.add(0, false);
 		}
-//		System.out.println(resultList.size());
-//		System.out.println(resultList);
+		// System.out.println(resultList.size());
+		// System.out.println(resultList);
 		return resultList;
 	}
 
@@ -74,7 +77,8 @@ public class SecureHashFunctions implements SecureHashInterface {
 		for (int i = count; i % 4 != 0; i++) {
 			resultList.add(0, false);
 		}
-//		System.out.println("Input: " + Integer.toHexString(res) + " " + " " + resultList);
+		// System.out.println("Input: " + Integer.toHexString(res) + " " + " " +
+		// resultList);
 
 		return resultList;
 	}
@@ -158,32 +162,49 @@ public class SecureHashFunctions implements SecureHashInterface {
 
 	@Override
 	public List<Boolean> Ch(List<Boolean> X, List<Boolean> Y, List<Boolean> Z) {
-		return xor(and(new ArrayList<Boolean>(X), new ArrayList<Boolean>(Y)), and(not(new ArrayList<Boolean>(X)), new ArrayList<Boolean>(Z)));
+		return xor(and(new ArrayList<Boolean>(X), new ArrayList<Boolean>(Y)),
+				and(not(new ArrayList<Boolean>(X)), new ArrayList<Boolean>(Z)));
 	}
 
 	@Override
 	public List<Boolean> Maj(List<Boolean> X, List<Boolean> Y, List<Boolean> Z) {
-		return xor(xor(and(new ArrayList<Boolean>(X), new ArrayList<Boolean>(Y)), and(new ArrayList<Boolean>(X), new ArrayList<Boolean>(Z))), and(new ArrayList<Boolean>(Y), new ArrayList<Boolean>(Z)));
+		return xor(
+				xor(and(new ArrayList<Boolean>(X), new ArrayList<Boolean>(Y)),
+						and(new ArrayList<Boolean>(X),
+								new ArrayList<Boolean>(Z))),
+				and(new ArrayList<Boolean>(Y), new ArrayList<Boolean>(Z)));
 	}
 
 	@Override
 	public List<Boolean> SIGMA0(List<Boolean> X) {
-		return xor(xor(RotR(new ArrayList<Boolean>(X), 2), RotR(new ArrayList<Boolean>(X), 13)), RotR(new ArrayList<Boolean>(X), 22));
+		return xor(
+				xor(RotR(new ArrayList<Boolean>(X), 2),
+						RotR(new ArrayList<Boolean>(X), 13)),
+				RotR(new ArrayList<Boolean>(X), 22));
 	}
 
 	@Override
 	public List<Boolean> SIGMA1(List<Boolean> X) {
-		return xor(xor(RotR(new ArrayList<Boolean>(X), 6), RotR(new ArrayList<Boolean>(X), 11)), RotR(new ArrayList<Boolean>(X), 25));
+		return xor(
+				xor(RotR(new ArrayList<Boolean>(X), 6),
+						RotR(new ArrayList<Boolean>(X), 11)),
+				RotR(new ArrayList<Boolean>(X), 25));
 	}
 
 	@Override
 	public List<Boolean> sigma0(List<Boolean> X) {
-		return xor(xor(RotR(new ArrayList<Boolean>(X), 7), RotR(new ArrayList<Boolean>(X), 18)), ShR(new ArrayList<Boolean>(X), 3));
+		return xor(
+				xor(RotR(new ArrayList<Boolean>(X), 7),
+						RotR(new ArrayList<Boolean>(X), 18)),
+				ShR(new ArrayList<Boolean>(X), 3));
 	}
 
 	@Override
 	public List<Boolean> sigma1(List<Boolean> X) {
-		return xor(xor(RotR(new ArrayList<Boolean>(X), 17), RotR(new ArrayList<Boolean>(X), 19)), ShR(new ArrayList<Boolean>(X), 10));
+		return xor(
+				xor(RotR(new ArrayList<Boolean>(X), 17),
+						RotR(new ArrayList<Boolean>(X), 19)),
+				ShR(new ArrayList<Boolean>(X), 10));
 	}
 
 	@Override
@@ -277,11 +298,13 @@ public class SecureHashFunctions implements SecureHashInterface {
 		BigInteger result = modularAdd(A, B, 2, 32);
 		List<Boolean> resultList = convertToList(result);
 		int i = resultList.size();
-		while(i<32){
-			resultList.add(0,false);
+		while (i < 32) {
+			resultList.add(0, false);
 			i++;
 		}
-//		System.out.println(convertToString(resultList) +" "+convertToString(A)+" "+convertToString(B) +" "+resultList.size());
+		// System.out.println(convertToString(resultList)
+		// +" "+convertToString(A)+" "+convertToString(B)
+		// +" "+resultList.size());
 		return resultList;
 
 	}
@@ -300,7 +323,7 @@ public class SecureHashFunctions implements SecureHashInterface {
 		int position = 0;
 		int count = 0;
 		// System.out.println(input);
-//		System.out.println(input+" "+input.size());
+		// System.out.println(input+" "+input.size());
 		while (position < input.size()) {
 			int number = getHalfByte(new ArrayList<Boolean>(input.subList(
 					position, position + 4)));
@@ -312,7 +335,7 @@ public class SecureHashFunctions implements SecureHashInterface {
 
 			// System.out.print(number);
 			if (count == 7) {
-//				System.out.println();
+				// System.out.println();
 				count = -1;
 			}
 			count++;
